@@ -105,3 +105,4 @@ dist
 
 # VsCode directory
 .vscode
+*.js
