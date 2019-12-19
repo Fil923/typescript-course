@@ -106,3 +106,4 @@ dist
 # VsCode directory
 .vscode
 *.js
+*.js.map
