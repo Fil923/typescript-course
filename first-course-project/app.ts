@@ -1,18 +1,19 @@
-function add(n1: number, n2: number) {
-  return n1 + n2;
+// unknow is better than any becuase avoid errors during development
+let userInput: unknown;
+let userName: string;
+
+userInput = 5;
+userInput = "Filippo";
+// userName = userInput; not allowed because is unknow, it's different to any
+
+if (typeof userInput === "string") {
+  userName = userInput; // this is allowed because there is a check and typescript detect it
+}
+// this functions return void, but for better understanding of code is good to set type return to never
+function generateError(message: string, code: number): never {
+  throw { message: message, errorCode: code };
 }
 
-// this function doesn't return anything, return void!
-function printResult(num: number) {
-  console.log("Result: " + num);
-}
-
-// This function is the same of the above!!
-// function printResult(num: number): undefined {
-//   console.log("Result: " + num);
-//   return;
-// }
-
-// let someValue: undefined; this can be done!
-printResult(add(5, 12));
-// console.log(printResult(add(5, 12))); // return undefined
+// generateError("An error occurred!", 500); This function never returns a value
+const result = generateError("An error occurred!", 500);
+console.log(result);
