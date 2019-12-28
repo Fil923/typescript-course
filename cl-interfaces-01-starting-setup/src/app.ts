@@ -1,4 +1,4 @@
-class Department {
+abstract class Department {
   //   private name: string;
   protected employees: string[] = [];
 
@@ -8,11 +8,13 @@ class Department {
   //   }
 
   // shortcut for code above
-  constructor(private readonly id: string, public name: string) {}
+  constructor(protected readonly id: string, public name: string) {}
 
-  describe(this: Department) {
-    console.log(`Deparment: (${this.id}): ${this.name}`);
+  static createEmployee(name: string) {
+    return { name: name };
   }
+
+  abstract describe(this: Department): void;
 
   addEmployee(employee: string) {
     this.employees.push(employee);
@@ -34,10 +36,15 @@ class ITDeparment extends Department {
     super(id, "IT");
     this.admins = admins;
   }
+
+  describe() {
+    console.log("IT Department - ID: " + this.id);
+  }
 }
 
 class AccountingDepartment extends Department {
   private lastReport: string;
+  private static instance: AccountingDepartment;
 
   get mostRecentReport() {
     if (this.lastReport) {
@@ -53,9 +60,20 @@ class AccountingDepartment extends Department {
     this.addReport(value);
   }
 
-  constructor(id: string, private reports: string[]) {
+  private constructor(id: string, private reports: string[]) {
     super(id, "Accounting");
     this.lastReport = reports[0];
+  }
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    return (this.instance = new AccountingDepartment("d2", []));
+  }
+
+  describe() {
+    console.log("Accounting department - ID: " + this.id);
   }
 
   addEmployee(name: string) {
@@ -75,6 +93,10 @@ class AccountingDepartment extends Department {
   }
 }
 
+// static method doesn't need an instance of the class in which are declared
+const employee1 = Department.createEmployee("Mario");
+console.log(employee1);
+
 const it = new ITDeparment("d1", ["Filippo"]);
 
 // Department.Main();
@@ -88,7 +110,15 @@ console.log(it);
 it.describe();
 it.printEmployeeInformation();
 
-const accounting = new AccountingDepartment("d2", []);
+// const accounting = new AccountingDepartment("d2", []);
+/**
+ * This is a singleton class
+ * it ha private constructor, static method that return the instance of the class
+ * if it isn't created already
+ */
+const accounting = AccountingDepartment.getInstance();
+// const accounting2 = AccountingDepartment.getInstance();
+// console.log(accounting, accounting2);
 // no parenthesis because setters are like property of an object and they accept a value
 accounting.mostRecentReport = "pupu";
 
@@ -96,10 +126,11 @@ accounting.mostRecentReport = "pupu";
 
 accounting.addReport("This is a report");
 console.log(accounting.mostRecentReport);
-accounting.printReports();
+// accounting.printReports();
 accounting.addEmployee("Max");
 accounting.addEmployee("Filippo");
-console.log(accounting);
+accounting.describe();
+// console.log(accounting);
 
 // example of how doing a copy of an object with class
 // const departmentCopy = { name: "AccountingCopy", describe: department.describe };
