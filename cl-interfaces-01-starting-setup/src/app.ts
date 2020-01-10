@@ -42,7 +42,7 @@ class Person implements Greetable {
 
 let user1: Greetable;
 
-user1 = new Person();
+user1 = new Person("Filippo");
 // this is not possible because name is readonly
 //user1.name = "Max";
 
