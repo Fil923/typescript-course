@@ -43,6 +43,13 @@ type Universal = Combinable & Numeric;
 
 // it is usefull with union types
 
+// this code is a function overload
+// it is eliminated when typescript will be converted in javascript
+// basically combines knowledge of this function
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
 function add(a: Combinable, b: Combinable) {
   // start of type guard
   /**
@@ -204,3 +211,36 @@ const errorBag: ErrorContainer = {
 
 // this is a feature that allows us to create multiple signature of a function
 // for this section we will use the previous add function as an example
+const result = add(1, 5);
+
+// it is correct to use add function like this
+const result_string = add("Filippo", "Nardi");
+// because the add function can handle strings and number (combinable input)
+result_string.toString();
+// we can also use type casting to handle
+
+// Optional Chaining
+const fetchedUserData = {
+  id: "u1",
+  name: "Filippo",
+  // let's assume that job doesn't exist
+  job: { title: "CEO", description: "My own company" }
+};
+
+// editors can get an error because it's a new feature in typescript
+// now it's sure that it is an error because job doesn't exist
+// this operatore is usefull when you have to fetch data from an API
+// and you are not sure if that type of data exist
+console.log(fetchedUserData?.job.title);
+
+// Nullish Coalesing
+
+// let's assume that this data can be null
+const userInput = undefined;
+
+// this approach it's not good because if userInput it's and empty string DAFAULT will be choosen
+// const storedData = userInput || "DEFAULT";
+// Instead, with this approach only if it is null or undefined
+const storedData = userInput ?? "DEFAULT";
+
+console.log(storedData);
