@@ -91,3 +91,28 @@ const numberStorage = new DataStorage<number>();
 // // ...
 // objStorage.removeItem({ name: "Filippo" });
 // console.log(objStorage.getItems());
+
+interface CourseGoal {
+  title: string;
+  description: string;
+  completeUntil: Date;
+}
+
+function createCourseGoal(title: string, description: string, date: Date): CourseGoal {
+  /**
+   * Now what this does is it tells typescript that this is an object which in the end will be a course goal
+    but initially partial kind of wraps our own type and changes it to a type where all these properties
+    are optional.
+   */
+  let courseGoal: Partial<CourseGoal> = {};
+  courseGoal.title = title;
+  courseGoal.description = description;
+  courseGoal.completeUntil = date;
+
+  return courseGoal as CourseGoal;
+}
+
+const names: Readonly<string[]> = ["Filippo", "Marika"];
+// if an element is readonly you can't manipulate that element
+// names.push("Marco");
+// names.pop();
