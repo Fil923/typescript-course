@@ -105,5 +105,7 @@ dist
 
 # VsCode directory
 .vscode
-*.js
-*.js.map
+# Project files
+app.js
+dist/*.js
+dist/*.js.map
