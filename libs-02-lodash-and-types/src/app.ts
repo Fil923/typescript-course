@@ -1,10 +1,19 @@
-import _ from "lodash";
+import "reflect-metadata";
+import { plainToClass } from "class-transformer";
 
-/**
- * declare is used to tell Typescript: don't worry, it is declared and it is a string
- */
-// declare var GLOBAL: string;
+import { Product } from "./product.model";
 
-console.log(_.shuffle([1, 2, 3]));
+const products = [
+  { title: "A gift", price: 12.99 },
+  { title: "A Book", price: 12.99 },
+];
 
-// console.log(GLOBAL);
+// const p1 = new Product("A Book", 12.99);
+
+// console.log(p1.getInformation());
+
+const loadedProducts = plainToClass(Product, products);
+
+for (const prod of loadedProducts) {
+  console.log(prod.getInformation());
+}
